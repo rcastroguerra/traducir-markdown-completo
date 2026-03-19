@@ -93,9 +93,13 @@ def traducir_linea(linea):
     if es_url(linea) or es_html(linea):
         return linea
 
-    # ❗ NO traducir encabezados Markdown (#)
+    # ✔ Traducir encabezados Markdown (#)
     if linea.lstrip().startswith("#"):
-        return linea
+        texto = linea.lstrip()
+        hashes = texto.split(" ")[0]              # ###, ####, etc.
+        contenido = texto[len(hashes):].strip()   # texto del encabezado
+        traducido = traducir_texto(contenido)
+        return f"{hashes} {traducido}\n"
 
     # Tablas
     if "|" in linea and not linea.strip().startswith("```"):
